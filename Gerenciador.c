@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
-#include <windows.h>
 
 #define PID_START 99
 #define TERMINO 0
@@ -36,7 +35,7 @@ void manipular_tabela_processos() {
 
     while (poweroffTabela == 1) {
 
-        system("cls");
+        system("clear");
         printf("---------- Manipular Tabela de Processos ----------\n\n");
 
         printf("1. Inserir Processos (Nome, Ciclos de CPU)\n2. Alterar Processos\n3. Remover Processos\n4. Listar Tabela\n5. Voltar ao Menu Principal\n\n");
@@ -57,7 +56,7 @@ void manipular_tabela_processos() {
                 return manipular_tabela_processos();
             }
 
-            system("cls");
+            system("clear");
 
             printf("---------- Insira os dados do processo a ser criado ----------\n\n");
 
@@ -92,7 +91,7 @@ void manipular_tabela_processos() {
             int novo_cpu = 0;
             int opcao = 0;
 
-            system("cls");
+            system("clear");
 
             printf("Informe o PID do processo a ser alterado: ");
             scanf("%i", &pid);
@@ -145,7 +144,7 @@ void manipular_tabela_processos() {
             int i = 0;
             int j = 0;
 
-            system("cls");
+            system("clear");
 
             printf("Informe o PID do processo a ser removido: ");
             scanf("%i", &pid);
@@ -172,7 +171,7 @@ void manipular_tabela_processos() {
         }
         else if (manipularSelect == 4) {
 
-            system("cls");
+            system("clear");
 
             int i = 0;
 
@@ -189,7 +188,7 @@ void manipular_tabela_processos() {
         else if (manipularSelect == 5) {
 
             poweroffTabela = 0;
-            system("cls");
+            system("clear");
             return;
         }
         else {
@@ -252,7 +251,7 @@ void *fila_de_processos(void *proc) {
 
                 printf("\nProcesso: ' %s ' Finalizado !!!", processos[i].nome);
 
-                if (i == proc_final) {
+                if (processos[vetor - 1].cpu == 0) {
 
                     return retornar();
                 }
@@ -279,7 +278,7 @@ void executar_simulacao() {
     while (i != vetor) {
 
         pthread_create(&thread_id, NULL, fila_de_processos, NULL);
-        Sleep(1000);
+        sleep(1);
         pthread_join(thread_id, NULL);
 
         num_threads--;
@@ -295,7 +294,7 @@ int main() {
 
         int menuSelect = 0;
 
-        system("cls");
+        system("clear");
 
         printf("---------- Gerenciador da Fila de Prontos ----------\n\n");
 
@@ -315,7 +314,7 @@ int main() {
         }
         else if (menuSelect == 3) {
 
-            system("cls");
+            system("clear");
             printf("Copyright\n\nProjeto01 - Gerenciador de Processos\nCurso de Analise e Desenvolvimento de Sistemas\nProf. Jose Luis Zem\n\n");
             printf("Integrantes\n\nRodrigo Vinicius Ventura de Souza");
             printf("\n\n");
