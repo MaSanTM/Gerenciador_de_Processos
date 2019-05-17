@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include <windows.h>
 
 #define PID_START 99
 #define TERMINO 0
 #define MAX_CHAR 20
 #define MAX_PROC 7
+
+pthread_t thread_id;
+int num_threads = 0;
 
 int vetor = 0;
 int num_processos = 0;
@@ -98,7 +102,7 @@ void manipular_tabela_processos() {
                 if (processos[i].pid == pid) {
 
                     printf("Tamanho maximo de caracteres no nome é de: 20.");
-                    
+
                     printf("\n\nNome: %s  PID: %i  CPU: %i\n\n", processos[i].nome, processos[i].pid, processos[i].cpu);
 
                     printf("O que deseja alterar:\n1. Nome\n2. CPU\n\n");
@@ -155,7 +159,7 @@ void manipular_tabela_processos() {
                     removidos++;
 
                     for (j = i; j < vetor; j++) {
-                  
+
                         strcpy(processos[j].nome , processos[j + 1].nome);
                         processos[j].pid = processos[j + 1].pid;
                         processos[j].cpu = processos[j + 1].cpu;
@@ -192,21 +196,100 @@ void manipular_tabela_processos() {
 
             printf("\n\nOpcao Invalida !!!\n\n");
 
-            printf("\n\nAperte ENTER para voltar...");            
+            printf("\n\nAperte ENTER para voltar...");
             getchar(); scanf("%c", &aux);
         }
     }
     return;
 }
 
+int retornar() {
+
+    int opcao = 0;
+
+    printf("\n\nDeseja:\n1. Retornar\n2. Sair do programa");
+    printf("\n\nEscolha uma opcao: ");
+    scanf("%i", &opcao);
+
+    if (opcao = 1) {
+
+        int i = 0;
+
+        for (i = 0; i < vetor; i++) {
+
+            strcpy(processos[i].nome, " ");
+            processos[i].pid = 0;
+            processos[i].cpu = 0;
+        }
+        
+        vetor = 0;
+        
+        return main();
+    }
+    else if (opcao == 2) {
+
+        exit(0);
+    }
+}
+
+void *fila_de_processos(void *proc) {
+
+    int i = 0;
+    int break_point = 0;
+    int proc_final = 0;
+
+    proc_final = num_processos - 1;
+
+    for (i = 0; i < vetor; i++) {
+
+        if (processos[i].cpu != 0) {
+
+            printf("\nNome: ' %s ' CPU: %i ", processos[i].nome, processos[i].cpu);
+
+            processos[i].cpu = processos[i].cpu - 1;
+
+            if (processos[i].cpu == 0) {
+
+                printf("\nProcesso: ' %s ' Finalizado !!!", processos[i].nome);
+
+                if (i == proc_final) {
+
+                    return retornar();
+                }
+            }
+        }
+    }
+}
+
 void executar_simulacao() {
 
-    
+    int i = 0;
+    pthread_t thread_id;
+
+    num_threads = vetor;
+
+    if (num_threads <= 0) {
+
+        printf("\nNenhum processo na fila.");
+
+        getchar(); scanf("%c", &aux);
+        return;
+    }
+
+    while (i != vetor) {
+
+        pthread_create(&thread_id, NULL, fila_de_processos, NULL);
+        Sleep(1000);
+        pthread_join(thread_id, NULL);
+
+        num_threads--;
+    }
 }
 
 int main() {
 
     int poweroff = 1;
+    int i = 0;
 
     while (poweroff == 1) {
 
@@ -236,8 +319,8 @@ int main() {
             printf("Copyright\n\nProjeto01 - Gerenciador de Processos\nCurso de Analise e Desenvolvimento de Sistemas\nProf. Jose Luis Zem\n\n");
             printf("Integrantes\n\nRodrigo Vinicius Ventura de Souza");
             printf("\n\n");
-            
-            printf("\n\nAperte ENTER para voltar...");            
+
+            printf("\n\nAperte ENTER para voltar...");
             getchar(); scanf("%c", &aux);
         }
         else if (menuSelect == 4) {
@@ -254,4 +337,3 @@ int main() {
         }
     }
 }
-
