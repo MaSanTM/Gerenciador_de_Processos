@@ -331,7 +331,7 @@ int main() {
 
             printf("\n\nOpcao Invalida !!!\n\n");
 
-            printf("\n\nAperte ENTER para voltar...");
+            printf("\n\nAperte ENTER para voltar...\n");
             getchar(); scanf("%c", &aux);
         }
     }
