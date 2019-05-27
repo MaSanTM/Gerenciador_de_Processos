@@ -18,6 +18,8 @@ int pid_usados[80][80];
 int tamanho_max = 0;
 char aux;
 
+FILE *fila;
+
 struct PROCESSOS{
 
     char nome[80];
@@ -35,7 +37,7 @@ void manipular_tabela_processos() {
 
     while (poweroffTabela == 1) {
 
-        system("clear");
+        system("cls");
         printf("---------- Manipular Tabela de Processos ----------\n\n");
 
         printf("1. Inserir Processos (Nome, Ciclos de CPU)\n2. Alterar Processos\n3. Remover Processos\n4. Listar Tabela\n5. Voltar ao Menu Principal\n\n");
@@ -56,7 +58,7 @@ void manipular_tabela_processos() {
                 return manipular_tabela_processos();
             }
 
-            system("clear");
+            system("cls");
 
             printf("---------- Insira os dados do processo a ser criado ----------\n\n");
 
@@ -91,7 +93,7 @@ void manipular_tabela_processos() {
             int novo_cpu = 0;
             int opcao = 0;
 
-            system("clear");
+            system("cls");
 
             printf("Informe o PID do processo a ser alterado: ");
             scanf("%i", &pid);
@@ -144,7 +146,7 @@ void manipular_tabela_processos() {
             int i = 0;
             int j = 0;
 
-            system("clear");
+            system("cls");
 
             printf("Informe o PID do processo a ser removido: ");
             scanf("%i", &pid);
@@ -171,7 +173,7 @@ void manipular_tabela_processos() {
         }
         else if (manipularSelect == 4) {
 
-            system("clear");
+            system("cls");
 
             int i = 0;
 
@@ -188,7 +190,7 @@ void manipular_tabela_processos() {
         else if (manipularSelect == 5) {
 
             poweroffTabela = 0;
-            system("clear");
+            system("cls");
             return;
         }
         else {
@@ -210,7 +212,7 @@ int retornar() {
     printf("\n\nEscolha uma opcao: ");
     scanf("%i", &opcao);
 
-    if (opcao = 1) {
+    if (opcao == 1) {
 
         int i = 0;
 
@@ -220,9 +222,10 @@ int retornar() {
             processos[i].pid = 0;
             processos[i].cpu = 0;
         }
-        
+
         vetor = 0;
-        
+        num_processos = 0;
+
         return main();
     }
     else if (opcao == 2) {
@@ -239,11 +242,15 @@ void *fila_de_processos(void *proc) {
 
     proc_final = num_processos - 1;
 
+    fprintf(fila, "\n---------------------------------");
+
     for (i = 0; i < vetor; i++) {
 
         if (processos[i].cpu != 0) {
 
             printf("\nNome: ' %s ' CPU: %i ", processos[i].nome, processos[i].cpu);
+
+            fprintf(fila, "\nNome: ' %s ' CPU: %i ", processos[i].nome, processos[i].cpu);
 
             processos[i].cpu = processos[i].cpu - 1;
 
@@ -251,7 +258,9 @@ void *fila_de_processos(void *proc) {
 
                 printf("\nProcesso: ' %s ' Finalizado !!!", processos[i].nome);
 
-                if (processos[vetor - 1].cpu == 0) {
+                fprintf(fila,"\nProcesso: ' %s ' Finalizado !!!", processos[i].nome);
+
+                if (i == proc_final) {
 
                     return retornar();
                 }
@@ -275,6 +284,14 @@ void executar_simulacao() {
         return;
     }
 
+    fila = fopen("./fila_de_prontos.txt", "w");
+
+    if (fila != NULL) {
+
+        fclose(fila);
+        fila = fopen("./fila_de_prontos.txt", "a");
+    }
+
     while (i != vetor) {
 
         pthread_create(&thread_id, NULL, fila_de_processos, NULL);
@@ -283,6 +300,8 @@ void executar_simulacao() {
 
         num_threads--;
     }
+
+    fclose(fila);
 }
 
 int main() {
@@ -294,7 +313,7 @@ int main() {
 
         int menuSelect = 0;
 
-        system("clear");
+        system("cls");
 
         printf("---------- Gerenciador da Fila de Prontos ----------\n\n");
 
@@ -314,7 +333,7 @@ int main() {
         }
         else if (menuSelect == 3) {
 
-            system("clear");
+            system("cls");
             printf("Copyright\n\nProjeto01 - Gerenciador de Processos\nCurso de Analise e Desenvolvimento de Sistemas\nProf. Jose Luis Zem\n\n");
             printf("Integrantes\n\nRodrigo Vinicius Ventura de Souza");
             printf("\n\n");
@@ -325,13 +344,13 @@ int main() {
         else if (menuSelect == 4) {
 
             printf("\nEncerrando...\n");
-            poweroff = 0;
+            exit(0);
         }
         else {
 
             printf("\n\nOpcao Invalida !!!\n\n");
 
-            printf("\n\nAperte ENTER para voltar...\n");
+            printf("\n\nAperte ENTER para voltar...");
             getchar(); scanf("%c", &aux);
         }
     }
