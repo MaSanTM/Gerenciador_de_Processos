@@ -1,3 +1,3 @@
 # Gerenciador de Processos
 
-![alt text](http://www.fatec.edu.br/wp-content/themes/fatec/img/logo-colorido.png)
+![alt text](https://ibb.co/k20JVj7)
