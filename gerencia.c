@@ -26,9 +26,7 @@ struct PROCESSOS{
     int pid;
     int cpu;
 };
-
 struct PROCESSOS processos[10];
-
 void manipular_tabela_processos() {
 
     int poweroffTabela = 1;
@@ -36,7 +34,6 @@ void manipular_tabela_processos() {
     int pid_num = 1;
 
     while (poweroffTabela == 1) {
-
         system("clear");
         printf("---------- Manipular Tabela de Processos ----------\n\n");
         printf("1. Inserir Processos (Nome, Ciclos de CPU)\n2. Alterar Processos\n3. Remover Processos\n4. Listar Tabela\n5. Voltar ao Menu Principal\n\n");
@@ -44,19 +41,16 @@ void manipular_tabela_processos() {
         scanf("%i", &manipularSelect);
 
         if (manipularSelect == 1) {
-
             num_processos++;
 
             if (vetor >= MAX_PROC) {
                 printf("\n\nQuanditade de processos excedida !!!\n\n");
                 printf("\n\nAperte ENTER para voltar...");
                 getchar(); scanf("%c", &aux);
-
                 return manipular_tabela_processos();
             }
-
             system("clear");
-
+            
             printf("---------- Insira os dados do processo a ser criado ----------\n\n");
             printf("Nome do processo: ");
             scanf("%s", &processos[vetor].nome);
@@ -71,7 +65,6 @@ void manipular_tabela_processos() {
             processos[vetor].pid = PID_START + num_processos;
             printf("\nQuantidade de Ciclos da CPU: ");
             scanf("%i", &processos[vetor].cpu);
-            
             vetor++;
         }
         else if (manipularSelect == 2) {
@@ -88,14 +81,13 @@ void manipular_tabela_processos() {
             scanf("%i", &pid);
 
             for (i = 0; i < MAX_PROC; i++) {
-
                 if (processos[i].pid == pid) {
                     printf("Tamanho maximo de caracteres no nome é de: 20.");
                     printf("\n\nNome: %s  PID: %i  CPU: %i\n\n", processos[i].nome, processos[i].pid, processos[i].cpu);
                     printf("O que deseja alterar:\n1. Nome\n2. CPU\n\n");
                     printf("Escolha uma opcao: ");
                     scanf("%i", &opcao);
-
+                    
                     if (opcao == 1) {
                         printf("\n\nNovo nome: ");
                         scanf("%s", &novo_nome);
@@ -129,7 +121,7 @@ void manipular_tabela_processos() {
             scanf("%i", &pid);
 
             for (i = 0; i < MAX_PROC; i++) {
-
+                
                 if (processos[i].pid == pid) {
                     pid_usados[removidos][80] = pid;
                     removidos++;
@@ -145,6 +137,7 @@ void manipular_tabela_processos() {
             }
         }
         else if (manipularSelect == 4) {
+            
             system("clear");
             int i = 0;
             printf("---------- Processos ----------\n\n");
@@ -176,7 +169,6 @@ int retornar() {
     scanf("%i", &opcao);
 
     if (opcao == 1) {
-        
         int i = 0;
 
         for (i = 0; i < vetor; i++) {
@@ -192,7 +184,6 @@ int retornar() {
         exit(0);
     }
 }
-
 void *fila_de_processos(void *proc) {
 
     int i = 0;
@@ -203,6 +194,7 @@ void *fila_de_processos(void *proc) {
     fprintf(fila, "\n---------------------------------");
 
     for (i = 0; i < vetor; i++) {
+        
         if (processos[i].cpu != 0) {
             printf("\nNome: ' %s ' CPU: %i ", processos[i].nome, processos[i].cpu);
             fprintf(fila, "\nNome: ' %s ' CPU: %i ", processos[i].nome, processos[i].cpu);
