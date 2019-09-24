@@ -1,5 +1,5 @@
 # Gerenciador de Processos
-```bash
+```console
 user~#
 ```
 **1** - Inserir processo(s)<br/>
