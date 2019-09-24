@@ -1,7 +1,7 @@
 # Gerenciador de Processos
-
-<code>user~#</code>
-
+```bash
+user~#
+```
 **1** - Inserir processo(s)<br/>
 **2** - Alterar processo(s)<br/>
 **3** - Remover processo(s)<br/>
